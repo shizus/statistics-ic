@@ -1,3 +1,5 @@
+K = 5000
+
 F_inv <- function(x, theta) {
   result <- -0.5 * log(exp(-2 * theta) - x / exp(2 * theta))
   return(result)
@@ -88,6 +90,9 @@ combinations <- expand.grid(n = array_n, theta = array_theta)
 for (i in 1:nrow(combinations)) {
   n_value <- combinations$n[i]
   theta_value <- combinations$theta[i]
-  simulate(n_value, theta_value)
+  # Por cada n y tita simulo k veces
+  for (j in 1:K) {
+    simulate(n_value, theta_value)
+  }
 }
 
