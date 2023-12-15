@@ -25,7 +25,8 @@ write_to_csv <- function(pivot_name, n, theta, measurements, interval, interval_
   # Si el archivo no existe creo el encabezado
   if (!file.exists(filename)) {
     file_conn <- file(filename, open = "a")
-    header <- "mediciones,a,b,longitud,cobertura"
+    # header <- "mediciones,a,b,longitud,cobertura"
+    header <- "a,b,longitud,cobertura"
     
     writeLines(header, filename)
     
@@ -37,10 +38,11 @@ write_to_csv <- function(pivot_name, n, theta, measurements, interval, interval_
   file_conn <- file(filename, open = "a")
   
   # Convertir la lista measurements a una cadena. Separo con ;
-  measurements_str <- paste(measurements, collapse = ";")
+  # measurements_str <- paste(measurements, collapse = ";")
   
   # Escribir una línea en el archivo CSV
-  writeLines(paste(measurements_str, interval$a, interval$b, interval_length, in_interval, sep = ","), file_conn)
+  # writeLines(paste(measurements_str, interval$a, interval$b, interval_length, in_interval, sep = ","), file_conn)
+  writeLines(paste(interval$a, interval$b, interval_length, in_interval, sep = ","), file_conn)
   
   # Cerrar el archivo
   close(file_conn)
@@ -55,8 +57,8 @@ calculate_x_bar <- function(measurements) {
 pivot_1 <- function(measurements) {
   n <- length(measurements)
   x_bar <- calculate_x_bar(measurements)
-  a <- -1.96 - 1/2 + 2 * sqrt(n) * x_bar
-  b <- 1.96 - 1/2 + 2 * sqrt(n) * x_bar
+  a <- (-1.96 / (2 * sqrt(n)) ) - 1/2 +  x_bar
+  b <- (1.96 / (2 * sqrt(n)) ) - 1/2 +  x_bar
   
   # Crear el objeto interval con atributos a y b
   result_interval <- list(a = a, b = b)
