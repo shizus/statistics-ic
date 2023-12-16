@@ -62,7 +62,7 @@ data_pivot_1 <- subset(data, pivot == "pivot_1")
 
 # Crear el gráfico de dispersión para el pivote 1
 ggplot(data_pivot_1, aes(x = n, y = expected_length)) +
-  geom_point() +
+  geom_point(color = "red") +
   labs(title = "Comparación del Pivote 1 por Longitud Esperada y Tamaño de Muestra",
        x = "Tamaño de Muestra (n)",
        y = "Longitud Esperada") +
@@ -94,4 +94,23 @@ ggplot(data, aes(x = pivot, y = expected_length, fill = pivot)) +
 
 ```
 
+```{r}
+# Crear el gráfico de cobertura en función de n para cada pivote
+ggplot(data, aes(x = n, y = coverage, color = pivot)) +
+  geom_point() +
+  labs(title = "Cobertura en Función de n para Cada Pivote",
+       x = "Tamaño de Muestra (n)",
+       y = "Cobertura") +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(data, aes(x = n, y = coverage, color = pivot)) +
+  geom_line() +
+  labs(title = "Cobertura en Función de n para Cada Pivote",
+       x = "Tamaño de Muestra (n)",
+       y = "Cobertura") +
+  theme_minimal()
+```
 

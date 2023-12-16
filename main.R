@@ -107,14 +107,11 @@ get_interval_by_n <- function(n) {
 
 pivot_2 <- function(measurements) {
   n <- length(measurements)
-  x_bar <- calculate_x_bar(measurements)
   
-  interval <- get_interval_by_n(n)
-  a_n <- interval$a
-  b_n <- interval$b
+  min_value <- min(measurements)
   
-  a <- (-b_n) / n + x_bar
-  b <- (-a_n) / n + x_bar
+  a <- min_value - 1.4978 / n
+  b <- min_value
   
   # Crear el objeto interval con atributos a y b
   result_interval <- list(a = a, b = b)
