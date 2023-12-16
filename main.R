@@ -122,8 +122,20 @@ pivot_2 <- function(measurements) {
 }
 
 pivot_3 <- function(measurements) {
-  # Placeholder para función no implementada
-  return(NULL)
+  n <- length(measurements)
+  x_bar <- calculate_x_bar(measurements)
+  
+  interval <- get_interval_by_n(n)
+  a_n <- interval$a
+  b_n <- interval$b
+  
+  a <- (-b_n) / n + x_bar
+  b <- (-a_n) / n + x_bar
+  
+  # Crear el objeto interval con atributos a y b
+  result_interval <- list(a = a, b = b)
+  
+  return(result_interval)
 }
 
 
@@ -175,26 +187,24 @@ save_and_show_results <- function(simulation_statistics) {
   cat("Punto 3\n")
   cat("pivot, n, theta, expected_length\n")
   
-  # Print the data
   for (i in seq_len(nrow(df_simulation_statistics))) {
     cat(
-      df_simulation_statistics$pivot[i], ", ",
-      df_simulation_statistics$n[i], ", ",
-      df_simulation_statistics$theta[i], ", ",
-      df_simulation_statistics$expected_length[i], ", ",
-      df_simulation_statistics$in_interval_rate[i], "\n"
+      df_simulation_statistics[i, "pivot"]$pivot, ", ",
+      df_simulation_statistics[i, "n"]$n, ", ",
+      df_simulation_statistics[i, "theta"]$theta, ", ",
+      df_simulation_statistics[i, "expected_length"]$expected_length, "\n"
     )
   }
   
   cat("Punto 4\n")
   cat("pivot, n, theta, in_interval_rate\n")
-  # Print the data
+  
   for (i in seq_len(nrow(df_simulation_statistics))) {
     cat(
-      df_simulation_statistics$pivot[i], ", ",
-      df_simulation_statistics$n[i], ", ",
-      df_simulation_statistics$theta[i], ", ",
-      df_simulation_statistics$in_interval_rate[i], "\n"
+      df_simulation_statistics[i, "pivot"]$pivot, ", ",
+      df_simulation_statistics[i, "n"]$n, ", ",
+      df_simulation_statistics[i, "theta"]$theta, ", ",
+      df_simulation_statistics[i, "in_interval_rate"]$in_interval_rate, "\n"
     )
   }
   
@@ -224,14 +234,14 @@ for (i in 1:nrow(combinations)) {
   # Borro el csv para empezar de cero
   remove_file("pivot_1", n_value, theta_value)
   remove_file("pivot_2", n_value, theta_value)
-  # remove_file("pivot_3", n_value, theta_value)
+  remove_file("pivot_3", n_value, theta_value)
   
   # Por cada n y tita simulo K veces
   for (j in 1:K) {
     measurements <- generate_random_values(n_value, theta_value)
     result_pivot_1 <- simulate(measurements, n_value, theta_value, pivot_1, "pivot_1")
     result_pivot_2 <- simulate(measurements, n_value, theta_value, pivot_2, "pivot_2")
-    # result_pivot_3 <- simulate(measurements, n_value, theta_value, pivot_3, "pivot_3")
+    result_pivot_3 <- simulate(measurements, n_value, theta_value, pivot_3, "pivot_3")
     
     pivot_accum$pivot_1$length <- pivot_accum$pivot_1$length + 
       result_pivot_1$interval_length
@@ -245,10 +255,10 @@ for (i in 1:nrow(combinations)) {
       result_pivot_2$in_interval
     
     
-    #pivot_accum$pivot_3$length <- pivot_accum$pivot_3$length + 
-    #  result_pivot_3$interval_length
-    #pivot_accum$pivot_3$in_interval_count <- pivot_accum$pivot_3$in_interval_count +
-    #  result_pivot_3$in_interval
+    pivot_accum$pivot_3$length <- pivot_accum$pivot_3$length +
+     result_pivot_3$interval_length
+    pivot_accum$pivot_3$in_interval_count <- pivot_accum$pivot_3$in_interval_count +
+     result_pivot_3$in_interval
     
   }
   
@@ -273,19 +283,19 @@ for (i in 1:nrow(combinations)) {
   simulation_statistics <- c(simulation_statistics, list(new_statistic))
   
   
-  # new_statistic <- list(
-  #   n = n_value,
-  #   theta = theta_value,
-  #   expected_length = pivot_accum$pivot_3$length / K,
-  #   in_interval_rate = pivot_accum$pivot_3$in_interval_count / K
-  #   )
-  # 
-  # simulation_statistics <- c(simulation_statistics, list(new_statistic))
+  new_statistic <- list(
+    pivot= "pivot_3",
+    n = n_value,
+    theta = theta_value,
+    expected_length = pivot_accum$pivot_3$length / K,
+    in_interval_rate = pivot_accum$pivot_3$in_interval_count / K
+    )
+
+  simulation_statistics <- c(simulation_statistics, list(new_statistic))
   
 }
 
 save_and_show_results(simulation_statistics)
-# save_and_show_coverage(simulation_statistics)
 
 print("Terminado exitosamente.")
 
