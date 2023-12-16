@@ -5,7 +5,8 @@ F_inv <- function(x, theta) {
   return(result)
 }
 
-generate_random_values <- function(n, theta) {
+generate_random_values <- function(n, theta, seed) {
+  set.seed(seed)
   # Generar un array de n elementos
   x <- runif(n, 0, 1)
   
@@ -238,7 +239,11 @@ for (i in 1:nrow(combinations)) {
   
   # Por cada n y tita simulo K veces
   for (j in 1:K) {
-    measurements <- generate_random_values(n_value, theta_value)
+    # Elijo j de semilla porque quiero que cada simulación tenga resultados
+    # distintos para una misma combinación de n y tita
+    
+    seed <- j
+    measurements <- generate_random_values(n_value, theta_value, seed)
     result_pivot_1 <- simulate(measurements, n_value, theta_value, pivot_1, "pivot_1")
     result_pivot_2 <- simulate(measurements, n_value, theta_value, pivot_2, "pivot_2")
     result_pivot_3 <- simulate(measurements, n_value, theta_value, pivot_3, "pivot_3")
