@@ -1,0 +1,88 @@
+---
+title: "Conclusiones"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+```{r}
+install.packages("ggplot2")
+```
+
+```{r}
+library(ggplot2)
+
+# Cargar los datos
+data <- read.csv("full_results.csv", sep = ";")
+```
+
+```{r}
+ggplot(data, aes(x = n, y = expected_length, group = pivot, color = pivot)) +
+  geom_line() +
+  labs(title = "Comparación de Pivotes",
+       x = "Valor de n",
+       y = "Longitud Esperada",
+       color = "Pivote") +
+  theme_minimal()
+```
+
+```{r}
+# Boxplot para la Cobertura por Pivot
+ggplot(data, aes(x = pivot, y = coverage, fill = pivot)) +
+  geom_boxplot() +
+  labs(title = "Boxplot para la Cobertura por Pivot",
+       x = "Pivote",
+       y = "Cobertura") +
+  theme_minimal()
+```
+
+```{r}
+# Boxplot para la Longitud Esperada por Pivot
+ggplot(data, aes(x = pivot, y = expected_length, fill = pivot)) +
+  geom_boxplot() +
+  labs(title = "Boxplot para la Longitud Esperada por Pivot",
+       x = "Pivote",
+       y = "Longitud Esperada") +
+  theme_minimal()
+```
+
+```{r}
+# Histograma para la Longitud Esperada por Pivot
+ggplot(data, aes(x = expected_length, fill = pivot)) +
+  geom_histogram(binwidth = 0.1, position = "identity", alpha = 0.7) +
+  labs(title = "Histograma para la Longitud Esperada por Pivot",
+       x = "Longitud Esperada",
+       y = "Frecuencia",
+       fill = "Pivote") +
+  theme_minimal()
+```
+```{r}
+# Gráfico de Dispersión para la Longitud Esperada por n
+ggplot(data, aes(x = n, y = expected_length, color = pivot)) +
+  geom_point() +
+  labs(title = "Relación entre Longitud Esperada y Tamaño de Muestra (n)",
+       x = "Tamaño de Muestra (n)",
+       y = "Longitud Esperada",
+       color = "Pivote") +
+  theme_minimal()
+```
+
+```{r}
+# Gráfico de Violín para la Longitud Esperada por Pivot
+ggplot(data, aes(x = pivot, y = expected_length, fill = pivot)) +
+  geom_violin() +
+  labs(title = "Gráfico de Violín para la Longitud Esperada por Pivot",
+       x = "Pivote",
+       y = "Longitud Esperada",
+       fill = "Pivote") +
+  theme_minimal()
+
+
+
+```
+
+```{r}
+
+```

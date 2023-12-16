@@ -164,9 +164,9 @@ save_dataframe_as_csv <- function(df_simulation_statistics) {
   # Guardo todo
   write.csv(df_simulation_statistics, file = "full_results.csv", row.names = FALSE)
   
-  # Creo un dataframe sin la columna 'in_interval_rate'
+  # Creo un dataframe sin la columna 'coverage'
   df_punto_3 <- df_simulation_statistics
-  df_punto_3$in_interval_rate <- NULL
+  df_punto_3$coverage <- NULL
   
   write.csv(df_punto_3, file = "punto_3.csv", row.names = FALSE)
   
@@ -197,14 +197,14 @@ save_and_show_results <- function(simulation_statistics) {
   }
   
   cat("Punto 4\n")
-  cat("pivot, n, theta, in_interval_rate\n")
+  cat("pivot, n, theta, coverage\n")
   
   for (i in seq_len(nrow(df_simulation_statistics))) {
     cat(
       df_simulation_statistics[i, "pivot"]$pivot, ", ",
       df_simulation_statistics[i, "n"]$n, ", ",
       df_simulation_statistics[i, "theta"]$theta, ", ",
-      df_simulation_statistics[i, "in_interval_rate"]$in_interval_rate, "\n"
+      df_simulation_statistics[i, "coverage"]$coverage, "\n"
     )
   }
   
@@ -267,7 +267,7 @@ for (i in 1:nrow(combinations)) {
     n = n_value,
     theta = theta_value,
     expected_length = pivot_accum$pivot_1$length / K,
-    in_interval_rate = pivot_accum$pivot_1$in_interval_count / K
+    coverage = pivot_accum$pivot_1$in_interval_count / K
     )
   
   simulation_statistics <- c(simulation_statistics, list(new_statistic))
@@ -277,7 +277,7 @@ for (i in 1:nrow(combinations)) {
     n = n_value,
     theta = theta_value,
     expected_length = pivot_accum$pivot_2$length / K,
-    in_interval_rate = pivot_accum$pivot_2$in_interval_count / K
+    coverage = pivot_accum$pivot_2$in_interval_count / K
     )
   
   simulation_statistics <- c(simulation_statistics, list(new_statistic))
@@ -288,7 +288,7 @@ for (i in 1:nrow(combinations)) {
     n = n_value,
     theta = theta_value,
     expected_length = pivot_accum$pivot_3$length / K,
-    in_interval_rate = pivot_accum$pivot_3$in_interval_count / K
+    coverage = pivot_accum$pivot_3$in_interval_count / K
     )
 
   simulation_statistics <- c(simulation_statistics, list(new_statistic))
